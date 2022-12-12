@@ -9,7 +9,11 @@ def get_random_lotto_numbers(range_start_number: int,
 
     random_numbers: list[int] = list()
 
-    if range_end_number - range_start_number < required_amount_of_numbers:
+    if not input_values_correct(required_amount_of_numbers= required_amount_of_numbers,
+                             range_end_number= range_end_number,
+                             range_start_number= range_start_number):
+        
+        # raising exception avoids infinte loop
         raise ValueException(f"Error: '{range_end_number=}' - '{range_start_number=}' has to be >= '{required_amount_of_numbers=}'")
 
     while len(random_numbers) < required_amount_of_numbers:
@@ -25,3 +29,10 @@ def get_random_lotto_numbers(range_start_number: int,
             random_numbers.append(random_number)
 
     return sorted(random_numbers)
+
+
+def input_values_correct(range_start_number: int, range_end_number: int, required_amount_of_numbers: int) -> bool:
+    
+    """Checks the input values passed in to the randomizer"""
+
+    return range_end_number - range_start_number + 1 >= required_amount_of_numbers
