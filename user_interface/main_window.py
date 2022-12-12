@@ -20,7 +20,7 @@ class RandomLottoNumberGenerator(tk.Tk):
        
         self.super_number_checkbox = ttk.Checkbutton(self, 
                                                     text= "Want Super Number?", 
-                                                    command= lambda: self.super_number_required())
+                                                    command= lambda: self.change_super_number_entry_state())
         self.super_number_checkbox.pack(anchor=tk.W)
 
         self.number_input_frame = tk.Frame(master= self)
@@ -118,27 +118,27 @@ class RandomLottoNumberGenerator(tk.Tk):
         self.super_number_is_required: bool = False
 
 
-    def super_number_checkbox_selected(self) -> bool:
+    def __super_number_checkbox_selected(self) -> bool:
 
         """Checks the selection state of the super number checkbox. Returns true if selected, otherwise false"""
 
         return "selected" in self.super_number_checkbox.state()
 
 
-    def super_number_required(self) -> None:
+    def change_super_number_entry_state(self) -> None:
         
         """Checks whether a super number is required or not according to the super number checkbox."""
         
-        if self.super_number_checkbox_selected():
+        if self.__super_number_checkbox_selected():
             self.super_number_is_required = True
-            self.manage_super_number_entry_widget_state(tk.NORMAL)
+            self.__manage_super_number_entry_widget_state(tk.NORMAL)
         
         else:
             self.super_number_is_required = False
-            self.manage_super_number_entry_widget_state(tk.DISABLED)
+            self.__manage_super_number_entry_widget_state(tk.DISABLED)
 
 
-    def manage_super_number_entry_widget_state(self, new_state: Literal) -> None:
+    def __manage_super_number_entry_widget_state(self, new_state: Literal) -> None:
         
         """Manages the entry widgets for the super numbers depending on whether the super number checkbox is selected or not"""
         
@@ -147,15 +147,15 @@ class RandomLottoNumberGenerator(tk.Tk):
         self.super_number_amount_entry.config(state= new_state)
 
 
-    def get_number_ranges(self) -> None:
+    def __get_number_information(self) -> None:
         
         """Wrapper function to grab the numbers from the respective entry widgets and store them within instance variables."""
         
-        self.get_regular_numbers()
-        self.get_super_numbers()
+        self.__get_regular_numbers()
+        self.__get_super_numbers()
 
     
-    def get_regular_numbers(self) -> None:
+    def __get_regular_numbers(self) -> None:
 
         """Gets the regular numbers from the respective entry widgets."""
 
@@ -164,11 +164,11 @@ class RandomLottoNumberGenerator(tk.Tk):
         self.REGULAR_NUMBER_AMOUNT = int(self.regular_number_amount_entry.get())
 
 
-    def get_super_numbers(self) -> None:
+    def __get_super_numbers(self) -> None:
         
         """Gets the super numbers from the respective entry widgets. Beforehand, it checks whether supernumbers are active or not."""
 
-        if self.super_number_checkbox_selected():
+        if self.__super_number_checkbox_selected():
             self.RANGE_SUPER_NUMBER_START = int(self.super_number_range_start_entry.get())
             self.RANGE_SUPER_NUMBER_END = int(self.super_number_range_end_entry.get())
             self.SUPER_NUMBER_AMOUNT = int(self.super_number_amount_entry.get())
@@ -181,12 +181,12 @@ class RandomLottoNumberGenerator(tk.Tk):
         
         """Generates the random numbers either with or without supernumber. Updates the labels"""
 
-        self.get_number_ranges()
-        self.generate_super_numbers()
-        self.generate_regular_numbers()
+        self.__get_number_information()
+        self.__generate_super_numbers()
+        self.__generate_regular_numbers()
 
 
-    def generate_super_numbers(self) -> None:
+    def __generate_super_numbers(self) -> None:
 
         """Generates the super numbers and updates the label"""
 
@@ -195,7 +195,7 @@ class RandomLottoNumberGenerator(tk.Tk):
                                                            range_end_number= self.RANGE_SUPER_NUMBER_END,
                                                            required_amount_of_numbers= self.SUPER_NUMBER_AMOUNT)
 
-            self.update_label(numbers= super_numbers, 
+            self.__update_label(numbers= super_numbers, 
                               string= "Super Number", 
                               number_label= self.super_number_label)
 
@@ -204,7 +204,7 @@ class RandomLottoNumberGenerator(tk.Tk):
 
 
 
-    def generate_regular_numbers(self) -> None:
+    def __generate_regular_numbers(self) -> None:
  
         """Generates the regular numbers and updates the label"""
 
@@ -212,12 +212,12 @@ class RandomLottoNumberGenerator(tk.Tk):
                                                          range_end_number= self.RANGE_END_REGULAR_NUMBER, 
                                                          required_amount_of_numbers= self.REGULAR_NUMBER_AMOUNT)
         
-        self.update_label(numbers= regular_numbers,
+        self.__update_label(numbers= regular_numbers,
                           string= "Regular Numbers", 
                           number_label= self.regular_numbers_label)
 
 
-    def update_label(self, numbers: int | list[int], string: str, number_label: tk.Label) -> None:
+    def __update_label(self, numbers: int | list[int], string: str, number_label: tk.Label) -> None:
 
         """Updates the label according to the numbers generated."""
 
