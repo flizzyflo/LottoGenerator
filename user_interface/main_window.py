@@ -6,6 +6,9 @@ from value_exception.value_exception import ValueException
 
 class RandomLottoNumberGenerator(tk.Tk):
 
+    """Basic tkinter lotto generator widget where all information are displayed on."""
+
+
     def __init__(self, generate_numbers_function: callable) -> None:
         super().__init__()
         
