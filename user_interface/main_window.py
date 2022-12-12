@@ -20,7 +20,7 @@ class RandomLottoNumberGenerator(tk.Tk):
                   command= lambda: quit()).pack(fill= tk.BOTH)
        
         self.super_number_checkbox = ttk.Checkbutton(self, 
-                                                    text= "Want Super Number?", 
+                                                    text= "Super Number?", 
                                                     command= lambda: self.change_super_number_entry_state())
         self.super_number_checkbox.pack(anchor=tk.W)
 
