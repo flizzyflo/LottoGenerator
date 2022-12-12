@@ -1,13 +1,16 @@
 import random
+from value_exception.value_exception import ValueException
 
 def get_random_lotto_numbers(range_start_number: int, 
                              range_end_number: int, 
-                             required_amount_of_numbers: int) -> int | list[int]:
+                             required_amount_of_numbers: int) -> list[int]:
     
+    """Random number generator. Returns 0 if input parameter are not correct."""
+
     random_numbers: list[int] = list()
 
     if range_end_number - range_start_number < required_amount_of_numbers:
-        return 0
+        raise ValueException(f"Error: '{range_end_number=}' - '{range_start_number=}' has to be >= '{required_amount_of_numbers=}'")
 
     while len(random_numbers) < required_amount_of_numbers:
         
@@ -21,4 +24,4 @@ def get_random_lotto_numbers(range_start_number: int,
             #append random number to lotto numbers.
             random_numbers.append(random_number)
 
-    return random_numbers
+    return sorted(random_numbers)

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from typing import Literal
 from settings.settings import ENTRY_SIZE
+from value_exception.value_exception import ValueException
 
 class RandomLottoNumberGenerator(tk.Tk):
 
@@ -190,39 +191,49 @@ class RandomLottoNumberGenerator(tk.Tk):
 
         """Generates the super numbers and updates the label"""
 
-        if self.super_number_is_required:
-            super_numbers = self.generate_numbers_function(range_start_number= self.RANGE_SUPER_NUMBER_START, 
-                                                           range_end_number= self.RANGE_SUPER_NUMBER_END,
-                                                           required_amount_of_numbers= self.SUPER_NUMBER_AMOUNT)
+        if not self.super_number_is_required:
 
-            self.__update_label(numbers= super_numbers, 
-                              string= "Super Number", 
-                              number_label= self.super_number_label)
-
-        else:
             self.super_number_label.config(text= "Super Number: -")
+            return
+        
+        try:
+            super_numbers = self.generate_numbers_function(range_start_number= self.RANGE_SUPER_NUMBER_START, 
+                                                            range_end_number= self.RANGE_SUPER_NUMBER_END,
+                                                            required_amount_of_numbers= self.SUPER_NUMBER_AMOUNT)
 
+            self.update_label(numbers= super_numbers, 
+                                string= "Super Number", 
+                                number_label= self.super_number_label)
+        
+        except ValueException as value_error:
+            self.update_label(string= value_error,
+                              number_label= self.super_number_label)
 
 
     def __generate_regular_numbers(self) -> None:
  
         """Generates the regular numbers and updates the label"""
 
-        regular_numbers = self.generate_numbers_function(range_start_number= self.RANGE_START_REGULAR_NUMBER, 
-                                                         range_end_number= self.RANGE_END_REGULAR_NUMBER, 
-                                                         required_amount_of_numbers= self.REGULAR_NUMBER_AMOUNT)
+        try:
+            regular_numbers = self.generate_numbers_function(range_start_number= self.RANGE_START_REGULAR_NUMBER, 
+                                                             range_end_number= self.RANGE_END_REGULAR_NUMBER, 
+                                                             required_amount_of_numbers= self.REGULAR_NUMBER_AMOUNT)
         
-        self.__update_label(numbers= regular_numbers,
-                          string= "Regular Numbers", 
-                          number_label= self.regular_numbers_label)
+            self.update_label(numbers= regular_numbers,
+                              string= "Regular Numbers", 
+                              number_label= self.regular_numbers_label)
+        
+        except ValueException as value_error:
+            self.update_label(string= value_error, 
+                              number_label= self.regular_numbers_label)
 
 
-    def __update_label(self, numbers: int | list[int], string: str, number_label: tk.Label) -> None:
+    def update_label(self, string: str, number_label: tk.Label, numbers: int | list[int] = None) -> None:
 
         """Updates the label according to the numbers generated."""
 
-        if numbers == 0:
-            number_label.config(text= f"'Range Max - Range Min' has to be bigger as or equal to the amount of numbers to  generate.")
+        if numbers == None:
+            number_label.config(text= string)
 
         else:
             number_label.config(text= f"{string}: {numbers}")
