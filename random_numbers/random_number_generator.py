@@ -10,8 +10,8 @@ def get_random_lotto_numbers(range_start_number: int,
     random_numbers: list[int] = list()
 
     if not input_values_correct(required_amount_of_numbers= required_amount_of_numbers,
-                             range_end_number= range_end_number,
-                             range_start_number= range_start_number):
+                                range_end_number= range_end_number,
+                                range_start_number= range_start_number):
         
         # raising exception avoids infinte loop
         raise ValueException(f"Error: '{range_end_number=}' - '{range_start_number=}' has to be >= '{required_amount_of_numbers=}'")

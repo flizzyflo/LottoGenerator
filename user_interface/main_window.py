@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from typing import Literal
-from settings.settings import ENTRY_SIZE
+from settings.settings import ENTRY_SIZE, INITIAL_RANGE_END_REGULAR_NUMBER, INITIAL_RANGE_START_REGULAR_NUMBER, INITIAL_RANGE_SUPER_NUMBER_END, INITIAL_RANGE_SUPER_NUMBER_START, INITIAL_REGULAR_NUMBER_AMOUNT, INITIAL_SUPER_NUMBER_AMOUNT
 from value_exception.value_exception import ValueException
 
 class RandomLottoNumberGenerator(tk.Tk):
@@ -30,13 +30,13 @@ class RandomLottoNumberGenerator(tk.Tk):
         self.number_input_frame = tk.Frame(master= self)
         self.number_input_frame.pack(fill= tk.BOTH)
 
-        self.RANGE_START_REGULAR_NUMBER: int = 1
-        self.RANGE_END_REGULAR_NUMBER: int = 49
-        self.REGULAR_NUMBER_AMOUNT: int = 6
+        self.RANGE_START_REGULAR_NUMBER: int = INITIAL_RANGE_START_REGULAR_NUMBER
+        self.RANGE_END_REGULAR_NUMBER: int = INITIAL_RANGE_END_REGULAR_NUMBER
+        self.REGULAR_NUMBER_AMOUNT: int = INITIAL_REGULAR_NUMBER_AMOUNT
 
-        self.RANGE_SUPER_NUMBER_START: int = 1
-        self.RANGE_SUPER_NUMBER_END: int = 9
-        self.SUPER_NUMBER_AMOUNT: int = 1
+        self.RANGE_SUPER_NUMBER_START: int = INITIAL_RANGE_SUPER_NUMBER_START
+        self.RANGE_SUPER_NUMBER_END: int = INITIAL_RANGE_SUPER_NUMBER_END
+        self.SUPER_NUMBER_AMOUNT: int = INITIAL_SUPER_NUMBER_AMOUNT
 
         tk.Label(master= self.number_input_frame, 
                  text= "Regular Numbers Range Start: ",).grid(row= 0,
@@ -49,10 +49,10 @@ class RandomLottoNumberGenerator(tk.Tk):
                                                         column= 4)
 
         self.regular_number_range_start_entry = tk.Entry(master= self.number_input_frame, 
-                                                  width= ENTRY_SIZE, 
-                                                  justify= tk.CENTER)
+                                                         width= ENTRY_SIZE, 
+                                                         justify= tk.CENTER)
         self.regular_number_range_start_entry.grid(row= 0, 
-                                            column= 1)
+                                                   column= 1)
 
         self.regular_number_range_start_entry.insert(0, self.RANGE_START_REGULAR_NUMBER)
 
@@ -60,21 +60,21 @@ class RandomLottoNumberGenerator(tk.Tk):
                                                 width= ENTRY_SIZE, 
                                                 justify= tk.CENTER)
         self.regular_number_range_end_entry.grid(row= 0, 
-                                          column= 3)
+                                                 column= 3)
 
         self.regular_number_range_end_entry.insert(0, self.RANGE_END_REGULAR_NUMBER)
 
         self.regular_number_amount_entry = tk.Entry(master= self.number_input_frame, 
-                                             width= ENTRY_SIZE, 
-                                             justify= tk.CENTER)
+                                                    width= ENTRY_SIZE, 
+                                                    justify= tk.CENTER)
         self.regular_number_amount_entry.grid(row= 0, 
-                                       column= 5)
+                                              column= 5)
 
         self.regular_number_amount_entry.insert(0, self.REGULAR_NUMBER_AMOUNT)
 
         tk.Label(master= self.number_input_frame, 
                  text= "Super Number Range Start: ").grid(row= 1, 
-                                                           column= 0)
+                                                          column= 0)
         tk.Label(master= self.number_input_frame, 
                  text= "Super Number Range End: ").grid(row= 1, 
                                                         column= 2)
@@ -84,34 +84,36 @@ class RandomLottoNumberGenerator(tk.Tk):
                                                      column= 4)
 
         self.super_number_range_start_entry = tk.Entry(master= self.number_input_frame, 
-                                                 state= tk.DISABLED, 
-                                                 width= ENTRY_SIZE, 
-                                                 justify= tk.CENTER)
+                                                       state= tk.DISABLED, 
+                                                       width= ENTRY_SIZE, 
+                                                       justify= tk.CENTER)
 
         self.super_number_range_start_entry.grid(row= 1, 
                                                  column= 1)
 
         self.super_number_range_end_entry = tk.Entry(master= self.number_input_frame, 
-                                               state= tk.DISABLED, 
-                                               width= ENTRY_SIZE, 
-                                               justify= tk.CENTER)
+                                                     state= tk.DISABLED, 
+                                                     width= ENTRY_SIZE, 
+                                                     justify= tk.CENTER)
+
         self.super_number_range_end_entry.grid(row= 1, 
-                                         column= 3)
+                                               column= 3)
 
         self.super_number_amount_entry = tk.Entry(master= self.number_input_frame, 
-                                            state= tk.DISABLED, 
-                                            width= ENTRY_SIZE, 
-                                            justify= tk.CENTER)
+                                                  state= tk.DISABLED, 
+                                                  width= ENTRY_SIZE, 
+                                                  justify= tk.CENTER)
+
         self.super_number_amount_entry.grid(row= 1, 
-                                      column= 5)
+                                            column= 5)
 
         self.result_frame = tk.Frame(master= self)
         self.result_frame.pack(fill= tk.BOTH)
 
         self.regular_numbers_label = tk.Label(master= self.result_frame, 
-                                                     justify= tk.LEFT)
+                                              justify= tk.LEFT)
         self.regular_numbers_label.pack(fill=tk.BOTH, 
-                                               anchor=tk.W)
+                                        anchor=tk.W)
 
         self.super_number_label = tk.Label(master= self.result_frame, 
                                            justify= tk.LEFT)
@@ -178,7 +180,7 @@ class RandomLottoNumberGenerator(tk.Tk):
             self.SUPER_NUMBER_AMOUNT = int(self.super_number_amount_entry.get())
 
         else:
-            pass
+            return
 
 
     def generate_numbers(self) -> None:
